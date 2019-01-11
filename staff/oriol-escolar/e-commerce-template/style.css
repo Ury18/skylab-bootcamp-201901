@@ -1,0 +1,30 @@
+body{
+margin: 0%;
+padding: 0%;
+box-sizing: border-box
+
+}
+
+header{
+    position: fixed;
+    display: flex;
+    flex-flow: row wrap;
+    background-color: rgb(175, 172, 172);
+}
+
+
+.logo{
+height: 10%;
+width: 30%;
+
+}
+
+input{
+width: 50px;
+    
+}
+
+input.button{
+width: 20px;
+
+}
