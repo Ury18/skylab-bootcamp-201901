@@ -17,14 +17,20 @@ img
     max-width: 100%
 
 
+button
+    background-color: transparent
+    border-style: solid
+    border-radius: .5rem
+    
+
 .header
     grid-area: "header"
     display: flex
     flex-flow: row nowrap
     background-color: white
     width: 100%
-    height: 2rem
-    padding: 0rem
+    height: 4rem
+    padding-left: 0rem
     
     align-items: center
     justify-content: flex-start
@@ -37,7 +43,7 @@ img
     &__name
         height: 1rem
         margin: 1em
-        color: green
+        color: #00B698
 
     &__link
         padding: .5rem
@@ -60,27 +66,36 @@ img
     padding: 1rem 2rem 1rem 2rem
     margin: -0.5rem
     flex-flow: column wrap
+    align-items: center
+    align-content: center
+    justify-items: center
+    justify-content: center
 
     &__title
         margin: 0.1rem
         color: white
         font-size: 2rem
+        
 
         &--green
-            color: green
+            color: #00B698
 
     &__text
         color: white
         font-size: 1rem
+        text-align: center
 
         &--green
-            color: green
+            color: #00B698
 
 
     &__links
         display: flex
-        flex-flow: row nowrap
-        
+        flex-flow: row wrap
+        align-items: center
+        align-content: center
+        justify-items: center
+        justify-content: center
          
         
 
@@ -92,6 +107,24 @@ img
     
 .content
     grid-area: "content"
+    display: flex
+    flex-flow: row wrap
+    justify-content: center
+    align-content: center
+    padding: 1rem
+
+    &__article
+        margin: 1rem
+
+
+        &__image
+
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+       
+
+
+
+
 
  
     
@@ -99,10 +132,10 @@ img
     grid-area: "footer"
     display: flex
     flex-flow: column wrap
-    background-color: grey
+    background-color: #363636
 
     &__gamma-features
-        background-color: green
+        background-color: #00B698
         display: flex
         flex-flow: column nowrap
         padding-left: 3rem
@@ -131,10 +164,14 @@ img
                     color: white
 
     &__gamma-bar
+
+        height: 10rem
         display: flex
-        flex-flow: row nowrap
-        justify-content: flex-start
-        align-content: space-around
+        flex-flow: row wrap
+        align-items: center
+        align-content: center
+        justify-items: center
+        justify-content: center
         font-size: .8rem
 
         &__link
@@ -143,7 +180,65 @@ img
             padding-left: .5rem 
 
         &__Copyright
-            margin-right: auto
+            color: white
             justify-self: flex-end
+            margin:1rem 
+            
+             
+             
+             
+             
+@media (min-width: 580px )
 
+    .sub-header
+        align-items: flex-start
+        align-content: flex-start
+        justify-items: flex-start
+        justify-content: flex-start
     
+    .footer__gamma-bar
+        height: 5rem
+
+@media (min-width: 900px )
+
+    .header
+        &__name
+            padding-left: 10rem
+        
+    .sub-header
+        align-items: flex-start
+        align-content: flex-start
+        justify-items: flex-start
+        justify-content: flex-start
+        padding: 2rem 
+        
+        height: 15rem
+    
+    .footer__gamma-bar
+        height: 3rem
+
+
+@media (min-width: 1400px )
+
+    .sub-header
+        align-items: flex-start
+        align-content: flex-start
+        justify-items: flex-start
+        justify-content: flex-start
+        padding: 8rem 
+        padding-left: 12rem
+        height: 15rem
+        
+    
+    .footer
+        &__gamma-features
+            padding-left: 10rem
+
+        &__gamma-bar
+            height: 5rem
+
+
+    .content 
+
+        margin: 5rem
+        flex-flow: row nowrap
