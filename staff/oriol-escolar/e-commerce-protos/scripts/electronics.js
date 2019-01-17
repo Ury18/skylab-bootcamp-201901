@@ -1,10 +1,10 @@
 function Electronics(brand,model,price) {
 
 this.model=model;
-this.brand=brand;
-this.price=price;
+// this.brand=brand;
+// this.price=price;
 
-// Product.call(this, brand,price);
+Product.call(this, brand, undefined, price);
 
 }
 

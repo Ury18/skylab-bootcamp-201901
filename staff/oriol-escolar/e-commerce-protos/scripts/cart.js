@@ -51,6 +51,7 @@ Cart.prototype.mostExpensive = function () {
 
 
     var value = 0;
+    var expensiveObject;
     
     for (var i = 0; i < this.productList.length; i++) {
 
@@ -58,12 +59,13 @@ Cart.prototype.mostExpensive = function () {
         
         if(object.price>value){
         value = object.price;
+        expensiveObject=object;
         }
         
 
     }
 
-    return value;
+    return expensiveObject;
 
 }
 
@@ -73,6 +75,7 @@ Cart.prototype.cheapest = function () {
 
 
     var value = this.productList[0].price;
+    var cheapestObject = this.productList[0];
     
     for (var i = 0; i < this.productList.length; i++) {
 
@@ -80,12 +83,13 @@ Cart.prototype.cheapest = function () {
         
         if(object.price<value){
         value = object.price;
+        cheapestObject=object;
         }
         
 
     }
 
-    return value;
+    return cheapestObject;
 
 
 }

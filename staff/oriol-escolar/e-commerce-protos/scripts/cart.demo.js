@@ -30,6 +30,7 @@ cart.add(cap);
 cart.add(shorts);
 cart.add(sweater);
 
+console.log (cart.productList);
 console.log('total', cart.totalPrice());
 console.log('number of items', cart.numberOfItems());
 console.log('most expensive', cart.mostExpensive());

@@ -1,11 +1,7 @@
 function Mobile(brand,model,color,price){
 
-    this.brand=brand;
-    this.color=color;
-    this.model=model;
-    this.price=price;
-    
-    // Electronics.call(this, brand,model,price)
+    this.color=color;   
+    Electronics.call(this, brand,model,price)
 
 }
 
