@@ -26,6 +26,7 @@ registerPanel.onRegister = function (name, surname, email, password, passwordCon
 
             registerPanel.clear();
             registerPanel.hide();
+            registerPanel.hide();
             loginPanel.show();
 
         });
