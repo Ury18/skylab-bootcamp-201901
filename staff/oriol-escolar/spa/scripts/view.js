@@ -117,9 +117,9 @@ LoginPanel.prototype.clear = function() {
 
 //#endregion
 
-//#region welcome panel
+//#region home panel
 
-function WelcomePanel() {
+function HomePanel() {
     Panel.call(this, document.createElement('section'));
 
     var container = this.element;
@@ -144,22 +144,30 @@ function WelcomePanel() {
     logoutButton.innerText = 'Logout';
     container.appendChild(logoutButton);
     this.__logoutButton__ = logoutButton;
+
+    
 }
 
-WelcomePanel.prototype = Object.create(Panel.prototype);
-WelcomePanel.prototype.constructor = WelcomePanel;
+HomePanel.prototype = Object.create(Panel.prototype);
+HomePanel.prototype.constructor = HomePanel;
 
-Object.defineProperty(WelcomePanel.prototype, 'user', { 
+Object.defineProperty(HomePanel.prototype, 'user', { 
     set: function(user) { 
         this.__userSpan__.innerText = user.name;
     } 
 });
 
-Object.defineProperty(WelcomePanel.prototype, 'onLogout', { 
+
+
+Object.defineProperty(HomePanel.prototype, 'onLogout', { 
     set: function(callback) { 
         this.__logoutButton__.addEventListener('click', callback);
     } 
 });
+
+
+
+
 
 //#endregion
 
@@ -187,7 +195,7 @@ function RegisterPanel() {
     form.appendChild(labelName);
 
     var inputName = document.createElement('input');
-    inputName.type = 'name'
+    inputName.type = 'text'
     inputName.name = 'name'
     inputName.placeholder = 'name'
     inputName.required = true
@@ -200,7 +208,7 @@ function RegisterPanel() {
     form.appendChild(labelSurname);
 
     var inputSurname = document.createElement('input');
-    inputSurname.type = 'surname'
+    inputSurname.type = 'text'
     inputSurname.name = 'surname'
     inputSurname.placeholder = 'surname'
     inputSurname.required = true
@@ -241,7 +249,7 @@ function RegisterPanel() {
     var inputConfirmPassword = document.createElement('input');
     inputConfirmPassword.type = 'password'
     inputConfirmPassword.name = 'password-confirmation'
-    inputConfirmPassword.placeholder = 'password'
+    inputConfirmPassword.placeholder = 'confirm password'
     inputConfirmPassword.required = true
     form.appendChild(inputConfirmPassword);
     this.__inputConfirmPassword__ = inputConfirmPassword;
@@ -313,6 +321,52 @@ RegisterPanel.prototype.clear = function() {
     this.__error__.innerText = '';
     this.__error__.hide();
 };
+
+
+//#endregion
+
+//#region search panel
+
+function SearchPanel()
+{
+
+    Panel.call(this, document.createElement('section'))
+    var container = this.element;
+
+
+    var ducklingTitle = document.createElement('h3');
+    ducklingTitle.innerText = 'Duckling Search Engine'
+    container.appendChild(ducklingTitle);
+
+
+    var form = document.createElement('form');
+    form.action= 'https://duckling-api.herokuapp.com/api/search'
+    form.method = 'get';
+    container.appendChild(form);
+    this.__form__=form;
+
+    var queryInput = document.createElement ('input');
+    queryInput.type='text';
+    queryInput.name='q';
+    queryInput.placeholder = 'search'
+    form.appendChild(queryInput)
+    this.queryInput=queryInput;
+
+    var searchButton = document.createElement('button');
+    searchButton.type='submit';
+    searchButton.innerText='Search';
+    form.appendChild(searchButton);
+    
+
+    var resultList = document.createElement('ul');
+    container.appendChild(resultList);
+    this.__resultList__=resultList
+
+
+
+}
+
+
 
 
 //#endregion
