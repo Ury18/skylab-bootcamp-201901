@@ -1,65 +1,81 @@
+'use strict';
+
 var loginPanel = new LoginPanel
-var homePanel = new HomePanel
 var registerPanel = new RegisterPanel
+// var homePanel = new HomePanel
+// var searchPanel = new SearchPanel
 
-document.body.appendChild(loginPanel.element);
-document.body.appendChild(homePanel.element);
-document.body.appendChild(registerPanel.element)
+var $body = $(document.body);
 
-loginPanel.onLogin = function (email, password) {
+$body.append(loginPanel.$element);
+$body.append(registerPanel.$element);
+// document.body.appendChild(homePanel.element);
+
+// homePanel.element.appendChild(searchPanel.element);
+
+loginPanel.onLogin = function(email, password) {
     try {
-        login(email, password, function (user) {
+        logic.login(email, password, function(user) {
             loginPanel.hide();
+            loginPanel.clear();
 
-            homePanel.user = user;
-            homePanel.show();
+            // homePanel.user = user;
+            // homePanel.show();
         });
-    } catch (err) {
+    } catch(err) {
         loginPanel.error = err.message;
     }
 };
 
+    loginPanel.onGoToRegister = function() {
+        loginPanel.hide();
+        loginPanel.clear();
+        registerPanel.show();
+    };
 
-registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
+registerPanel.onRegister = function(name, surname, email, password, passwordConfirmation) {
     try {
-        register(name, surname, email, password, passwordConfirmation, function () {
-
+        logic.register(name, surname, email, password, passwordConfirmation, function() {
+            registerPanel.hide();
             registerPanel.clear();
-            registerPanel.hide();
-            registerPanel.hide();
+
             loginPanel.show();
-
         });
-
-    } catch (err) {
-
+    } catch(err) {
         registerPanel.error = err.message;
-
     }
+};
 
-}
+registerPanel.onGoToLogin = function() {
+    registerPanel.hide();
+    registerPanel.clear();
 
-
-
-homePanel.onLogout = function () {
-    homePanel.hide();
-    loginPanel.clear();
     loginPanel.show();
 };
 
+// homePanel.onLogout = function() {
+//     homePanel.hide();
 
+//     searchPanel.clear();
 
-loginPanel.onRegisterPage = function () {
-    loginPanel.clear();
-    loginPanel.hide();
-    registerPanel.show();
+//     loginPanel.clear();
+//     loginPanel.show();
+// };
 
-}
-
-registerPanel.onLoginPage = function () {
-    registerPanel.clear();
-    registerPanel.hide();
-    loginPanel.show();
-
-}
-
+// searchPanel.onSearch = function(query) {
+//     try {
+//         logic.search(query, function(error, results) {
+//             if (error) {
+//                 searchPanel.error = error
+//                 searchPanel.clearResults();
+//             } else searchPanel.results = results.map(function(result) {
+//                 return {
+//                     text: result.title,
+//                     image: result.imageUrl
+//                 }
+//             });
+//         });
+//     } catch(err) {
+//         searchPanel.error = err.message;
+//     } 
+// };
