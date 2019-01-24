@@ -286,6 +286,12 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
     }
 });
 
+
+
+
+
+
+
 SearchPanel.prototype.clear = function () {
     this.clearResults();
     this.__$queryInput__.val('');
