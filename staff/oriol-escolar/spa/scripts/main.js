@@ -19,7 +19,7 @@ $loginPanel.onLogin = function(email, password) {
             $loginPanel.hide();
             $loginPanel.clear();
 
-            // $homePanel.user = user;
+            $homePanel.user = user;
             $homePanel.show();
         });
     } catch(err) {

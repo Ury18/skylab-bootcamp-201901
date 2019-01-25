@@ -48,7 +48,7 @@ function LoginPanel() {
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
     this.__$emailInput__ = $form.find('input[type=email]');
@@ -124,18 +124,18 @@ function RegisterPanel() {
 
     var $container = this.$element;
 
-    this.__$form__ = $container.children('form');
+    this.__$form__ = $container.find('form');
     var $form = this.__$form__;
 
-    this.__$nameInput__ = $form.children('input[name=name]');
+    this.__$nameInput__ = $form.find('input[name=name]');
 
-    this.__$surnameInput__ = $form.children('input[name=surname]');
+    this.__$surnameInput__ = $form.find('input[name=surname]');
 
-    this.__$emailInput__ = $form.children('input[type=email]');
+    this.__$emailInput__ = $form.find('input[type=email]');
 
-    this.__$passwordInput__ = $form.children('input[name=password]');
+    this.__$passwordInput__ = $form.find('input[name=password]');
 
-    this.__$passwordConfirmationInput__ = $form.children('input[name=password-confirmation]');
+    this.__$passwordConfirmationInput__ = $form.find('input[name=password-confirmation]');
 
     var errorPanel = new ErrorPanel;
     $container.append(errorPanel.$element);
@@ -200,12 +200,12 @@ function HomePanel() {
 
     var $container = this.$element;
 
-    var $title = $container.children('h2');
+    var $title = $container.find('h2');
 
-    var $userSpan = $title.children('span');
+    var $userSpan = $title.find('span');
     this.__$userSpan__ = $userSpan;
 
-    this.__$logoutButton__ = $container.children('button');
+    this.__$logoutButton__ = $container.find('button');
 }
 
 HomePanel.prototype = Object.create(Panel.prototype);
@@ -237,10 +237,10 @@ function SearchPanel() {
 
     var $container = this.$element;
 
-    var $form = $container.children('form');
+    var $form = $container.find('form');
     this.__$form__ = $form;
 
-    var $queryInput = $form.children('input');
+    var $queryInput = $form.find('input');
     this.__$queryInput__ = $queryInput;
 
     var errorPanel = new ErrorPanel;
@@ -281,8 +281,16 @@ Object.defineProperty(SearchPanel.prototype, 'results', {
         this.__errorPanel__.hide();
 
         results.forEach(function (result) {
-            var $item = $('<li>' + result.text + ' <img src="' + result.image + '" width="100px"></li>');
+            var $item = $('<li>' + result.text + ' <img src="' + result.image + '" width="100px"> <button type="submit">Info</button></li>');
             this.__$resultList__.append($item);
+            $item.on('click', 'button', function(event) {
+
+                event.preventDefault();
+                
+                console.log(result.text);
+                
+                });
+           
 
         }.bind(this));
     }
@@ -298,6 +306,18 @@ SearchPanel.prototype.clear = function () {
 SearchPanel.prototype.clearResults = function () {
     this.__$resultList__.html('');
 };
+
+//#endregion
+
+
+//#region DetailPanel
+
+
+
+
+
+
+
 
 //#endregion
 
