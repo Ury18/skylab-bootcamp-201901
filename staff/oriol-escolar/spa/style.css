@@ -30,3 +30,9 @@
     background-color: green;
     color: white;
 }
+
+.details {
+    display: none;
+    background-color: purple;
+    color: white;
+}

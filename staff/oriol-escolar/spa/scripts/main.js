@@ -1,81 +1,119 @@
 'use strict';
 
-var $loginPanel = new LoginPanel
-var $registerPanel = new RegisterPanel
-var $homePanel = new HomePanel
-var $searchPanel = new SearchPanel
+var loginPanel = new LoginPanel
+var registerPanel = new RegisterPanel
+var homePanel = new HomePanel
+var searchPanel = new SearchPanel
+var resultsPanel = new ResultsPanel
+var detailsPanel = new DetailsPanel;
 
 var $body = $(document.body);
 
-$body.append($loginPanel.$element);
-$body.append($registerPanel.$element);
-$body.append($homePanel.$element);
-$homePanel.$element.append($searchPanel.$element);
+$body.append(loginPanel.$element);
+$body.append(registerPanel.$element)
+$body.append(homePanel.$element);
 
+homePanel.$element.append(searchPanel.$element);
+homePanel.$element.append(resultsPanel.$element);
+homePanel.$element.append(detailsPanel.$element)
 
-$loginPanel.onLogin = function(email, password) {
+loginPanel.onLogin = function (email, password) {
     try {
-        logic.login(email, password, function(user) {
-            $loginPanel.hide();
-            $loginPanel.clear();
+        logic.login(email, password, function (user) {
+            loginPanel.hide();
+            loginPanel.clear();
 
-            $homePanel.user = user;
-            $homePanel.show();
+            homePanel.user = user;
+            homePanel.show();
         });
-    } catch(err) {
-        $loginPanel.error = err.message;
+    } catch (err) {
+        loginPanel.error = err.message;
     }
 };
 
-    $loginPanel.onGoToRegister = function() {
-        $loginPanel.hide();
-        $loginPanel.clear();
-        $registerPanel.show();
-    };
+loginPanel.onGoToRegister = function () {
+    loginPanel.hide();
+    loginPanel.clear();
 
-$registerPanel.onRegister = function(name, surname, email, password, passwordConfirmation) {
+    registerPanel.show();
+};
+
+registerPanel.onRegister = function (name, surname, email, password, passwordConfirmation) {
     try {
-        logic.register(name, surname, email, password, passwordConfirmation, function() {
-            $registerPanel.hide();
-            $registerPanel.clear();
+        logic.register(name, surname, email, password, passwordConfirmation, function () {
+            registerPanel.hide();
+            registerPanel.clear();
 
-            $loginPanel.show();
+            loginPanel.show();
         });
-    } catch(err) {
-        $registerPanel.error = err.message;
+    } catch (err) {
+        registerPanel.error = err.message;
     }
 };
 
-$registerPanel.onGoToLogin = function() {
-    $registerPanel.hide();
-    $registerPanel.clear();
+registerPanel.onGoToLogin = function () {
+    registerPanel.hide();
+    registerPanel.clear();
 
-    $loginPanel.show();
+    loginPanel.show();
 };
 
-$homePanel.onLogout = function() {
-    $homePanel.hide();
+homePanel.onLogout = function () {
+    homePanel.hide();
 
-    $searchPanel.clear();
+    searchPanel.clear();
 
-    $loginPanel.clear();
-    $loginPanel.show();
+    loginPanel.clear();
+    loginPanel.show();
 };
 
-$searchPanel.onSearch = function(query) {
+searchPanel.onSearch = function (query) {
     try {
-        logic.search(query, function(error, results) {
+        logic.search(query, function (error, results) {
             if (error) {
-                $searchPanel.error = error
-                $searchPanel.clearResults();
-            } else $searchPanel.results = results.map(function(result) {
-                return {
-                    text: result.title,
-                    image: result.imageUrl
-                }
-            });
+                searchPanel.error = error
+
+                resultsPanel.clear();
+            } else {
+                searchPanel.clearError();
+
+                resultsPanel.results = results.map(function (result) {
+                    return {
+                        id: result.id,
+                        text: result.title,
+                        image: result.imageUrl
+                    }
+                });
+            }
         });
-    } catch(err) {
-        $searchPanel.error = err.message;
-    } 
+    } catch (err) {
+        searchPanel.error = err.message;
+    }
 };
+
+result.onItemSelected = function (id) {
+
+    try {
+
+        logic.retrieve(id, function (error, detail) {
+            if (error) {
+
+                console.error(error);
+            }
+
+            resultsPanel.hide();
+
+            const { id, title, description, imageUrl: image, link: externalLink, price } = detail
+            detailsPanel.item={id,title,description,image,externalLink,price}
+
+            detailsPanel.show;
+
+        })
+    } catch{
+
+
+
+    }
+
+
+}
