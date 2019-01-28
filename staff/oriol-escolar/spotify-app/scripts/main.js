@@ -1,6 +1,6 @@
 
 
-spotifyApi.token = 'BQB9teRmpBLZJ7O-uanMXCErkHcBmoUqQOIsraqIRJjZ7kPt7zMdjCrQC59fRMwZ3SJ0YjKKnqJHNKgRvwaSqpJm1Un2DV_mHXINQFDtWknVQx1mK1nmXCc1XdH7u2F3ZCapqzLnJhCsoA'
+spotifyApi.token = 'BQAzFdXQvOkv2PynSo5zn8M1L4otcQrdlubcatocFNCaccgR7V-exEWsd-EVXbZ80sPStJlNxZBDouHmwp_VqaTg4az6ue766FfonkS0dmVq5SbXP7dCtY_djlWTKQPTn4DPu3rSzrMo0A'
 
 
 const loginPanel = new LoginPanel
@@ -173,6 +173,7 @@ tracksPanel.onTrackSelected = function (trackId) {
         logic.retrieveTrack(trackId, function (error, track) {
             if (error) tracksPanel.error = error.message
             else {
+                debugger
                 tracksPanel.hide()
 
                 trackPanel.track = track

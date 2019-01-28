@@ -402,12 +402,12 @@ class TrackPanel extends Panel {
         this.$container.append(errorPanel.$container)
         this.__errorPanel__ = errorPanel
     }
-    set track({ id, name, preview_url }) {
+    set track({ id, name, url }) {
         const image = 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'
         const $item = $(`<img data-id=${id} class="card-img-top" src="${image}" alt="Card image cap">
 <div class=""card-body"">
     <h5 class="card-text">${name}</h5>
-    <audio src=${preview_url} controls> </audio>
+    <audio src=${url} controls> </audio>
 </div>`)
 
         this.__$list__.append($item)
