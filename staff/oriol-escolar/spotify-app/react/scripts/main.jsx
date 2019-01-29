@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQCh_MnTG86-dr8VG9_hvy5KyIjJgLxZfARW9nXz5czYyyvGIm6s1UGEqLNz5y3ZbO83HjLMJzNbPOcykgCsOsxhiH3dOhzKETGPUzHoNdz3d4hZkGtHmp0dGjW1bTi1LkAj5L71PZIPkw'
+spotifyApi.token = 'BQDrBC1WQQYcj2nuOCZYEqiIR9c75ZUVoZSvQ_Pf2NTgP6ZV_r2zZsfqWRUxhS2ewBzNqFzrHZqpT-xSs7vqq3tlm31dHAZ24DMY6e2u5ydB6f1FlTdN_uhOLQvR-_86VkVQECfQwbhKuA'
 
 
 
@@ -18,6 +18,7 @@ class App extends React.Component {
         ArtistList: [],
         AlbumList: [],
         TrackList: [],
+        Track:[],
         loginVisible: true,
         registerVisible: false,
         searchPanelVisible: false
@@ -113,7 +114,7 @@ class App extends React.Component {
 
         try {
 
-            logic.retrieveAlbums(id, (error,AlbumList) => {
+            logic.retrieveAlbums(id, (error, AlbumList) => {
                 if (error) console.error(error)
                 else {
                     this.setState({ AlbumList })
@@ -134,7 +135,7 @@ class App extends React.Component {
 
         try {
 
-            logic.retrieveTracks(id, (error,TrackList) => {
+            logic.retrieveTracks(id, (error, TrackList) => {
                 if (error) console.error(error)
                 else {
                     this.setState({ TrackList })
@@ -150,10 +151,30 @@ class App extends React.Component {
 
         }
     }
+    LoadTrack = (id) => {
+
+        try {
+
+            logic.retrieveTrack(id, (error, Track) => {
+                if (error) console.error(error)
+                else {
+                    this.setState({ Track })
+                    console.log(Track)
+
+                }
+
+            })
+
+        } catch (err) {
+
+
+
+        }
+    }
 
     render() {
 
-        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList,AlbumList }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums,LoadTracks } = this
+        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList,TrackList }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks,LoadTrack } = this
 
         return <main className='app'>
             <header className="text-center">
@@ -166,6 +187,7 @@ class App extends React.Component {
             {searchPanelVisible && <SearchPanel onSearch={handleSearch} feedback={searchFeedback} goToLogout={Logout} />}
             <ArtistsPanel artistList={ArtistList} onArtistSelect={LoadAlbums} />
             <AlbumsPanel albumList={AlbumList} onAlbumSelect={LoadTracks} />
+            <TrackListPanel trackList = {TrackList} onTrackSelect= {LoadTrack} />
 
 
 
@@ -417,6 +439,40 @@ class AlbumsPanel extends React.Component {
                 {albumList.map(({ id, images, name }) => {
                     return <div id-data={id} onClick={() => onAlbumSelected(id)} >
                         <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
+                        <h4>{name}</h4>
+                    </div>
+                })}
+            </div>
+        </section>
+    }
+
+}
+
+class TrackListPanel extends React.Component {
+
+
+    onTrackSelected = (id) => {
+
+
+
+        const { props: { onTrackSelect } } = this
+
+        onTrackSelect(id)
+
+
+    }
+
+
+    render() {
+
+
+
+        const { props: { trackList }, onTrackSelected } = this
+        return <section>
+            <h3>Tracks</h3>
+            <div>
+                {trackList.map(({ id, name }) => {
+                    return <div id-data={id} onClick={() => onTrackSelected(id)} >
                         <h4>{name}</h4>
                     </div>
                 })}
