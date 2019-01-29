@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQADKuP603eI1kH-TLRUKru2ZKpBBMpAZ7GcLWNGydKfKFyuDTsUvXJHnHmkhHuiR4ucNOnN8k19yPf38eYXFpQc2goweDNjN-IVSYbqFIJm5bu1y0pVoqYGPQaWU-AMx75qlCBS5q8MRA'
+spotifyApi.token = 'BQD6LW7GjZ2MIxNmCS9K4aqxlmUBXaA-B0zqIBiwDUqN1k36SaX6PbIO7FEF5_LdKuDd4rzthedDfuWWEgrZysk-q3z1nDmCCWOan-N2NiXRdJeCtjQpiEmRF-9Js1TxddP6cM9DS5okbw'
 
 
 
@@ -63,10 +63,12 @@ class App extends React.Component {
 
         try {
 
-            spotifyApi.searchArtists(query, () => {
+            logic.searchArtists(query, (error,artists) => {
+                if(error) console.error (error)
+                else{
                 this.setState({ searchFeedback: '' })
-                // this.goToLogin();
-
+                console.log(artists)
+                }
             })
 
 
@@ -106,10 +108,10 @@ class App extends React.Component {
 
     render() {
 
-        const { state: { loginFeedback, registerFeedback,searchFeedback, loginVisible, registerVisible, searchPanelVisible }, handleLogin, handleRegister,handleSearch, goToLogin, goToRegister,Logout } = this
+        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout } = this
 
         return <main className='app'>
-            <header class="text-center">
+            <header className="text-center">
                 <h1>🎶 Spotify App 🎧</h1>
             </header>
 
@@ -276,6 +278,55 @@ class SearchPanel extends React.Component {
     render() {
 
         const { handleQuery, handleFormSubmit, handleForButton, props: { feedback } } = this
+
+        return <section className="search">
+
+
+
+
+            <div>
+                <div className="col-6">
+                    <h3>Welcome, <span className="search__name"></span>!</h3>
+                </div>
+                <div>
+                    <button onClick={handleForButton}>Logout</button>
+                </div>
+            </div>
+            <form onSubmit={handleFormSubmit}>
+                <input className="form-control" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
+                <div>
+                    <button>Search</button>
+                </div>
+            </form>
+
+            {feedback && <Feedback message={feedback} level='warn' />}
+
+        </section>
+
+    }
+
+
+}
+
+class ArtistsPanel extends React.Component {
+    state =
+        {
+
+
+
+
+        }
+
+
+    handleForButton = event => {
+        event.preventDefault();
+        const { props: { goToLogout } } = this
+        goToLogout();
+    }
+
+    render() {
+
+        const { handleQuery, handleForButton, props: { feedback } } = this
 
         return <section className="search">
 
