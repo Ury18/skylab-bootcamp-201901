@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQD6LW7GjZ2MIxNmCS9K4aqxlmUBXaA-B0zqIBiwDUqN1k36SaX6PbIO7FEF5_LdKuDd4rzthedDfuWWEgrZysk-q3z1nDmCCWOan-N2NiXRdJeCtjQpiEmRF-9Js1TxddP6cM9DS5okbw'
+spotifyApi.token = 'BQCh_MnTG86-dr8VG9_hvy5KyIjJgLxZfARW9nXz5czYyyvGIm6s1UGEqLNz5y3ZbO83HjLMJzNbPOcykgCsOsxhiH3dOhzKETGPUzHoNdz3d4hZkGtHmp0dGjW1bTi1LkAj5L71PZIPkw'
 
 
 
@@ -15,6 +15,9 @@ class App extends React.Component {
         loginFeedback: '',
         registerFeedback: '',
         searchFeedback: '',
+        ArtistList: [],
+        AlbumList: [],
+        TrackList: [],
         loginVisible: true,
         registerVisible: false,
         searchPanelVisible: false
@@ -58,16 +61,17 @@ class App extends React.Component {
     }
 
 
+
     handleSearch = (query) => {
 
 
         try {
 
-            logic.searchArtists(query, (error,artists) => {
-                if(error) console.error (error)
-                else{
-                this.setState({ searchFeedback: '' })
-                console.log(artists)
+            logic.searchArtists(query, (error, ArtistList) => {
+                if (error) console.error(error)
+                else {
+                    this.setState({ searchFeedback: '', ArtistList })
+
                 }
             })
 
@@ -105,10 +109,51 @@ class App extends React.Component {
 
     }
 
+    LoadAlbums = (id) => {
+
+        try {
+
+            logic.retrieveAlbums(id, (error,AlbumList) => {
+                if (error) console.error(error)
+                else {
+                    this.setState({ AlbumList })
+                    console.log(AlbumList)
+
+                }
+
+            })
+
+        } catch (err) {
+
+
+
+        }
+    }
+
+    LoadTracks = (id) => {
+
+        try {
+
+            logic.retrieveTracks(id, (error,TrackList) => {
+                if (error) console.error(error)
+                else {
+                    this.setState({ TrackList })
+                    console.log(TrackList)
+
+                }
+
+            })
+
+        } catch (err) {
+
+
+
+        }
+    }
 
     render() {
 
-        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout } = this
+        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList,AlbumList }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums,LoadTracks } = this
 
         return <main className='app'>
             <header className="text-center">
@@ -119,6 +164,8 @@ class App extends React.Component {
             {loginVisible && <LoginPanel onLogin={handleLogin} feedback={loginFeedback} goToRegister={goToRegister} />}
             {registerVisible && <RegisterPanel onRegister={handleRegister} feedback={registerFeedback} goToLogin={goToLogin} />}
             {searchPanelVisible && <SearchPanel onSearch={handleSearch} feedback={searchFeedback} goToLogout={Logout} />}
+            <ArtistsPanel artistList={ArtistList} onArtistSelect={LoadAlbums} />
+            <AlbumsPanel albumList={AlbumList} onAlbumSelect={LoadTracks} />
 
 
 
@@ -309,52 +356,75 @@ class SearchPanel extends React.Component {
 }
 
 class ArtistsPanel extends React.Component {
-    state =
-        {
 
 
 
+    onArtistSelected = (id) => {
 
-        }
 
 
-    handleForButton = event => {
-        event.preventDefault();
-        const { props: { goToLogout } } = this
-        goToLogout();
+        const { props: { onArtistSelect } } = this
+
+        onArtistSelect(id)
+
+
     }
+
 
     render() {
 
-        const { handleQuery, handleForButton, props: { feedback } } = this
-
-        return <section className="search">
 
 
-
-
+        const { props: { artistList }, onArtistSelected } = this
+        return <section>
+            <h3>Artists</h3>
             <div>
-                <div className="col-6">
-                    <h3>Welcome, <span className="search__name"></span>!</h3>
-                </div>
-                <div>
-                    <button onClick={handleForButton}>Logout</button>
-                </div>
+                {artistList.map(({ id, images, name }) => {
+                    return <div id-data={id} onClick={() => onArtistSelected(id)} >
+                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
+                        <h4>{name}</h4>
+                    </div>
+                })}
             </div>
-            <form onSubmit={handleFormSubmit}>
-                <input className="form-control" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
-                <div>
-                    <button>Search</button>
-                </div>
-            </form>
-
-            {feedback && <Feedback message={feedback} level='warn' />}
-
         </section>
+    }
+}
+
+
+class AlbumsPanel extends React.Component {
+
+
+    onAlbumSelected = (id) => {
+
+
+
+        const { props: { onAlbumSelect } } = this
+
+        onAlbumSelect(id)
+
 
     }
 
 
+    render() {
+
+
+
+        const { props: { albumList }, onAlbumSelected } = this
+        return <section>
+            <h3>Albums</h3>
+            <div>
+                {albumList.map(({ id, images, name }) => {
+                    return <div id-data={id} onClick={() => onAlbumSelected(id)} >
+                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
+                        <h4>{name}</h4>
+                    </div>
+                })}
+            </div>
+        </section>
+    }
+
 }
+
 
 ReactDOM.render(<App />, document.getElementById('root'))   
