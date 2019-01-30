@@ -1,6 +1,6 @@
 
 
-spotifyApi.token = 'BQADKuP603eI1kH-TLRUKru2ZKpBBMpAZ7GcLWNGydKfKFyuDTsUvXJHnHmkhHuiR4ucNOnN8k19yPf38eYXFpQc2goweDNjN-IVSYbqFIJm5bu1y0pVoqYGPQaWU-AMx75qlCBS5q8MRA'
+spotifyApi.token = 'BQB7JHgIZEe2TvfM5Yv5a30ihWmjoLzWlyO08GkyKzfmkvatbmwaG_KYdM8nxV2t_tFadzjhh7rHXAuJBBONCV6x0mnpeQ_-a8ux9RXregkEW84mpuebM4uH8mRXT_gneoOVV05-F8IzFA'
 
 
 const loginPanel = new LoginPanel

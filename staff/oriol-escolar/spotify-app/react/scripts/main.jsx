@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDrBC1WQQYcj2nuOCZYEqiIR9c75ZUVoZSvQ_Pf2NTgP6ZV_r2zZsfqWRUxhS2ewBzNqFzrHZqpT-xSs7vqq3tlm31dHAZ24DMY6e2u5ydB6f1FlTdN_uhOLQvR-_86VkVQECfQwbhKuA'
+spotifyApi.token = 'BQDPmnj9000sTuQd6cIob-QLTI4XWR_mPItJYl9d1WtX4DIJiFXvnegHXlUGfI8frWCiVqBOMAqKqeCUPcdPfT4BpRniVmjwil747Ue3HJgnk-GHH_y3owMp9pnWAq71ClKPfY3jWq3LuA'
 
 
 
@@ -18,10 +18,14 @@ class App extends React.Component {
         ArtistList: [],
         AlbumList: [],
         TrackList: [],
-        Track:[],
+        Track: [],
         loginVisible: true,
         registerVisible: false,
-        searchPanelVisible: false
+        searchPanelVisible: false,
+        artistListVisible: false,
+        albumListVisible: false,
+        trackListVisible: false,
+        trackVisible: false
 
     }
 
@@ -71,7 +75,7 @@ class App extends React.Component {
             logic.searchArtists(query, (error, ArtistList) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ searchFeedback: '', ArtistList })
+                    this.setState({ searchFeedback: '', ArtistList, artistListVisible: true })
 
                 }
             })
@@ -89,10 +93,15 @@ class App extends React.Component {
 
     Logout = () => {
         this.setState({ loginVisible: true })
-        this.setState({ searchPanelVisible: false })
+        this.setState({ searchPanelVisible: false, artistListVisible: false, albumListVisible: false, trackListVisible: false, trackVisible: false })
 
     }
 
+    ClearLists = () => {
+        
+        this.setState({ artistListVisible: false, albumListVisible: false, trackListVisible: false, trackVisible: false })
+
+    }
 
     goToRegister = () => {
 
@@ -109,6 +118,19 @@ class App extends React.Component {
 
 
     }
+    goBackToArtistList = () => {
+
+        this.setState({ albumListVisible: false, artistListVisible: true })
+
+    }
+
+    goBackToAlbumList = () => {
+
+        this.setState({ trackListVisible: false, albumListVisible: true })
+
+    }
+
+   
 
     LoadAlbums = (id) => {
 
@@ -117,7 +139,7 @@ class App extends React.Component {
             logic.retrieveAlbums(id, (error, AlbumList) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ AlbumList })
+                    this.setState({ AlbumList, albumListVisible: true, artistListVisible: false })
                     console.log(AlbumList)
 
                 }
@@ -138,7 +160,7 @@ class App extends React.Component {
             logic.retrieveTracks(id, (error, TrackList) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ TrackList })
+                    this.setState({ TrackList, trackListVisible: true, albumListVisible: false })
                     console.log(TrackList)
 
                 }
@@ -158,8 +180,8 @@ class App extends React.Component {
             logic.retrieveTrack(id, (error, Track) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ Track })
-                    console.log(Track)
+                    this.setState({ Track, trackVisible: true})
+                    console.log(this.state.Track)
 
                 }
 
@@ -174,7 +196,7 @@ class App extends React.Component {
 
     render() {
 
-        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList,TrackList }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks,LoadTrack } = this
+        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList, TrackList, Track, artistListVisible, albumListVisible, trackListVisible, trackVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks, LoadTrack, goBackToAlbumList, goBackToArtistList,ClearLists } = this
 
         return <main className='app'>
             <header className="text-center">
@@ -184,10 +206,11 @@ class App extends React.Component {
 
             {loginVisible && <LoginPanel onLogin={handleLogin} feedback={loginFeedback} goToRegister={goToRegister} />}
             {registerVisible && <RegisterPanel onRegister={handleRegister} feedback={registerFeedback} goToLogin={goToLogin} />}
-            {searchPanelVisible && <SearchPanel onSearch={handleSearch} feedback={searchFeedback} goToLogout={Logout} />}
-            <ArtistsPanel artistList={ArtistList} onArtistSelect={LoadAlbums} />
-            <AlbumsPanel albumList={AlbumList} onAlbumSelect={LoadTracks} />
-            <TrackListPanel trackList = {TrackList} onTrackSelect= {LoadTrack} />
+            {searchPanelVisible && <SearchPanel onClear={ClearLists} onSearch={handleSearch} feedback={searchFeedback} goToLogout={Logout} />}
+            {artistListVisible && <ArtistsPanel artistList={ArtistList} onArtistSelect={LoadAlbums} />}
+            {albumListVisible && <AlbumsPanel goToArtists={goBackToArtistList} albumList={AlbumList} onAlbumSelect={LoadTracks} />}
+            {trackListVisible && <TrackListPanel goToAlbums={goBackToAlbumList} trackList={TrackList} onTrackSelect={LoadTrack} />}
+            {trackVisible && <TrackPanel track={Track} />}
 
 
 
@@ -343,10 +366,15 @@ class SearchPanel extends React.Component {
         const { props: { goToLogout } } = this
         goToLogout();
     }
+    handleForButtonClear = event => {
+        event.preventDefault();
+        const { props: { onClear } } = this
+        onClear();
+    }
 
     render() {
 
-        const { handleQuery, handleFormSubmit, handleForButton, props: { feedback } } = this
+        const { handleQuery, handleFormSubmit, handleForButton,handleForButtonClear, props: { feedback } } = this
 
         return <section className="search">
 
@@ -354,13 +382,14 @@ class SearchPanel extends React.Component {
 
 
             <div>
-                <div className="col-6">
-                    <h3>Welcome, <span className="search__name"></span>!</h3>
-                </div>
+
                 <div>
                     <button onClick={handleForButton}>Logout</button>
+                    
                 </div>
             </div>
+            <button onClick={handleForButtonClear}>Clear Results</button>
+
             <form onSubmit={handleFormSubmit}>
                 <input className="form-control" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
                 <div>
@@ -391,6 +420,8 @@ class ArtistsPanel extends React.Component {
 
 
     }
+
+
 
 
     render() {
@@ -427,14 +458,20 @@ class AlbumsPanel extends React.Component {
 
     }
 
+    handleForButton = event => {
+        event.preventDefault();
+        const { props: { goToArtists } } = this
+        goToArtists();
+    }
 
     render() {
 
 
 
-        const { props: { albumList }, onAlbumSelected } = this
+        const { props: { albumList }, onAlbumSelected, handleForButton } = this
         return <section>
             <h3>Albums</h3>
+            <button onClick={handleForButton}>Back</button>
             <div>
                 {albumList.map(({ id, images, name }) => {
                     return <div id-data={id} onClick={() => onAlbumSelected(id)} >
@@ -461,14 +498,19 @@ class TrackListPanel extends React.Component {
 
 
     }
-
+    handleForButton = event => {
+        event.preventDefault();
+        const { props: { goToAlbums } } = this
+        goToAlbums();
+    }
 
     render() {
 
 
 
-        const { props: { trackList }, onTrackSelected } = this
+        const { props: { trackList }, onTrackSelected, handleForButton } = this
         return <section>
+            <button onClick={handleForButton}>Back</button>
             <h3>Tracks</h3>
             <div>
                 {trackList.map(({ id, name }) => {
@@ -481,6 +523,43 @@ class TrackListPanel extends React.Component {
     }
 
 }
+
+
+class TrackPanel extends React.Component {
+
+    
+
+    render() {
+        const { props: { track } } = this
+        return <section className='playingTrack'>
+            
+            <div>
+
+                <h4>{track.name}</h4>
+                <audio controls autoPlay src={track.preview_url}></audio>
+
+            </div>
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+}
+
+
 
 
 ReactDOM.render(<App />, document.getElementById('root'))   
