@@ -3,7 +3,7 @@ spotifyApi.token = 'BQDPmnj9000sTuQd6cIob-QLTI4XWR_mPItJYl9d1WtX4DIJiFXvnegHXlUG
 
 
 function Feedback({ message, level }) {
-    return <section className={`feedback ${level ? `feedback--${level}` : ''}`}>{message}</section>
+    return <section className=  {`feedback ${level ? `feedback--${level}` : ''}`}>{message}</section>
 }
 
 
@@ -199,8 +199,8 @@ class App extends React.Component {
         const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList, TrackList, Track, artistListVisible, albumListVisible, trackListVisible, trackVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks, LoadTrack, goBackToAlbumList, goBackToArtistList,ClearLists } = this
 
         return <main className='app'>
-            <header className="text-center">
-                <h1>🎶 Spotify App 🎧</h1>
+            <header className="header">
+                <h1>Spotifury</h1>
             </header>
 
 
@@ -258,15 +258,15 @@ class LoginPanel extends React.Component {
 
         return <section className='login'>
             <h2>Login</h2>
-            <form onSubmit={handleFormSubmit}>
+            <form className= 'login-form' onSubmit={handleFormSubmit}>
                 <label>Email</label>
-                <input type="email" onChange={handleEmailInput} />
+                <input className='login-form__input' type="email" onChange={handleEmailInput} />
                 <label>Password</label>
-                <input type="passsword" onChange={handlePasswordInput} />
-                <button>Login</button>
+                <input className='login-form__input' type="passsword" onChange={handlePasswordInput} />
+                <button className='login-form__button'>Login</button>
             </form>
 
-            <button onClick={handleForButton}>Register</button>
+            <button className='login__register-button' onClick={handleForButton}>Register</button>
 
             {feedback && <Feedback message={feedback} level='warn' />}
 
@@ -315,24 +315,24 @@ class RegisterPanel extends React.Component {
         const { handleEmailInput, handlePasswordInput, handleConfirmPasswordInput, handleNameInput, handleSurnameInput, handleFormSubmit, handleForButton, props: { feedback } } = this
 
         return <section className='register'>
-            <h2>Login</h2>
+            <h2>Register</h2>
 
-            <form onSubmit={handleFormSubmit}>
+            <form className='register-form' onSubmit={handleFormSubmit}>
                 <label>Name</label>
-                <input type="text" onChange={handleNameInput} />
+                <input className='register-form__input' type="text" onChange={handleNameInput} />
                 <label>surname</label>
-                <input type="text" onChange={handleSurnameInput} />
+                <input className='register-form__input' type="text" onChange={handleSurnameInput} />
                 <label>Email</label>
-                <input type="email" onChange={handleEmailInput} />
+                <input className='register-form__input' type="email" onChange={handleEmailInput} />
                 <label>Password</label>
-                <input type="password" onChange={handlePasswordInput} />
+                <input className='register-form__input' type="password" onChange={handlePasswordInput} />
                 <label>confirmPassword</label>
-                <input type="password" onChange={handleConfirmPasswordInput} />
-                <button>Register</button>
+                <input className='register-form__input' type="password" onChange={handleConfirmPasswordInput} />
+                <button className='register-form__button'>Register</button>
             </form>
 
 
-            <button onClick={handleForButton}>LogIn</button>
+            <button className='register__login-button' onClick={handleForButton}>LogIn</button>
             {feedback && <Feedback message={feedback} level='warn' />}
 
 
@@ -384,11 +384,11 @@ class SearchPanel extends React.Component {
             <div>
 
                 <div>
-                    <button onClick={handleForButton}>Logout</button>
+                    <button className='search__button-logout' onClick={handleForButton}>Logout</button>
                     
                 </div>
             </div>
-            <button onClick={handleForButtonClear}>Clear Results</button>
+            <button className='search__button-clear' onClick={handleForButtonClear}>Clear Results</button>
 
             <form onSubmit={handleFormSubmit}>
                 <input className="form-control" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
