@@ -20,6 +20,7 @@ body {
 
 .app {
   display: flex;
+  flex-flow: column wrap;
   justify-content: center;
   align-content: center;
 }
@@ -27,6 +28,7 @@ body {
 .header {
   position: fixed;
   top: 0;
+  height: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -89,20 +91,28 @@ body {
 }
 
 .search {
-  margin-top: 10%;
+  margin-top: 0;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
   width: 100%;
+  position: fixed;
+  top: 10%;
+  background-color: #262525;
+  border-bottom: 5px solid black;
 }
 .search__button-logout {
   align-self: flex-end;
   margin-right: 25%;
+  margin-top: 1%;
+}
+.search__title {
+  margin: 0;
 }
 .search-form {
   display: flex;
   flex-flow: column nowrap;
-  margin-bottom: 2%;
+  margin-bottom: 0%;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -121,10 +131,89 @@ body {
   align-content: center;
 }
 .search-form-buttons__button {
-  margin: 2%;
+  margin: 1%;
   width: 15%;
   align-self: center;
   justify-self: center;
+}
+
+.artists {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  margin-top: 17%;
+  width: 100%;
+}
+.artists__title {
+  margin-bottom: 1%;
+}
+.artists-items {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+}
+.artists-items-item {
+  box-shadow: 0px 0px 20px 0 black, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: solid 0.2rem green;
+  border-radius: 10%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  width: 20%;
+  margin: 1%;
+}
+.artists-items-item__image {
+  border-radius: 10%;
+  width: 100%;
+}
+
+.albums {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  margin-top: 17%;
+  width: 100%;
+}
+.albums__title {
+  margin-bottom: 1%;
+}
+.albums__button {
+  align-self: flex-end;
+  margin-right: 25%;
+  justify-self: flex-end;
+}
+.albums-items {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+}
+.albums-items-item {
+  box-shadow: 0px 0px 20px 0 black, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: solid 0.2rem green;
+  border-radius: 10%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  width: 20%;
+  margin: 1%;
+}
+.albums-items-item__image {
+  border-radius: 10%;
+  width: 100%;
 }
 
 .feedback {

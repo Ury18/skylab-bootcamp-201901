@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDPmnj9000sTuQd6cIob-QLTI4XWR_mPItJYl9d1WtX4DIJiFXvnegHXlUGfI8frWCiVqBOMAqKqeCUPcdPfT4BpRniVmjwil747Ue3HJgnk-GHH_y3owMp9pnWAq71ClKPfY3jWq3LuA'
+spotifyApi.token = 'BQAqVMrjOW7i8hoKR8CxMxg21uSQi6KtOBt_cLJpRnXs9KzdS58Ig4thEieIKI9CZBGWCQ4Zf3cohjj_zaB2l8f5f2kKXaylElrakMUqB2elpYuqda3SemtT3FdkRBGFZeFvuDyEZ3meLg'
 
 
 
@@ -75,7 +75,7 @@ class App extends React.Component {
             logic.searchArtists(query, (error, ArtistList) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ searchFeedback: '', ArtistList, artistListVisible: true })
+                    this.setState({ searchFeedback: '', ArtistList, artistListVisible: true,albumListVisible:false,trackListVisible:false })
 
                 }
             })
@@ -99,7 +99,7 @@ class App extends React.Component {
 
     ClearLists = () => {
 
-        this.setState({ artistListVisible: false, albumListVisible: false, trackListVisible: false, trackVisible: false })
+        this.setState({ artistListVisible: false, albumListVisible: false, trackListVisible: false, trackVisible: false, searchFeedback:'' })
 
     }
 
@@ -380,7 +380,7 @@ class SearchPanel extends React.Component {
 
             <button className='search__button-logout' onClick={handleForButton}>Logout</button>
 
-            <h2>Search an Artist</h2>
+            <h2 className='search__title'>Search an Artist</h2>
 
 
             <form className='search-form' onSubmit={handleFormSubmit}>
@@ -426,13 +426,13 @@ class ArtistsPanel extends React.Component {
 
 
         const { props: { artistList }, onArtistSelected } = this
-        return <section>
-            <h3>Artists</h3>
-            <div>
+        return <section className='artists'>
+            <h2 className='artists__title'>Artists</h2>
+            <div className='artists-items' >
                 {artistList.map(({ id, images, name }) => {
-                    return <div id-data={id} onClick={() => onArtistSelected(id)} >
-                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
-                        <h4>{name}</h4>
+                    return <div className='artists-items-item' id-data={id} onClick={() => onArtistSelected(id)} >
+                        <img className='artists-items-item__image' src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
+                        <h4 className='artists-items-item__name'>{name}</h4>
                     </div>
                 })}
             </div>
@@ -466,14 +466,14 @@ class AlbumsPanel extends React.Component {
 
 
         const { props: { albumList }, onAlbumSelected, handleForButton } = this
-        return <section>
-            <h3>Albums</h3>
-            <button onClick={handleForButton}>Back</button>
-            <div>
+        return <section className='albums'>
+            <button className='albums__button' onClick={handleForButton}>Back</button>
+            <h2 className='albums__title'>Albums</h2>
+            <div className='albums-items'>
                 {albumList.map(({ id, images, name }) => {
-                    return <div id-data={id} onClick={() => onAlbumSelected(id)} >
-                        <img src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
-                        <h4>{name}</h4>
+                    return <div className='albums-items-item' id-data={id} onClick={() => onAlbumSelected(id)} >
+                        <img className='albums-items-item__image' src={images[0] ? images[0].url : 'https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png'} alt="" />
+                        <h4 className='albums-items-item__name'>{name}</h4>
                     </div>
                 })}
             </div>
