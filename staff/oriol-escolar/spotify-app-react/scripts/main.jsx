@@ -3,7 +3,7 @@ spotifyApi.token = 'BQDPmnj9000sTuQd6cIob-QLTI4XWR_mPItJYl9d1WtX4DIJiFXvnegHXlUG
 
 
 function Feedback({ message, level }) {
-    return <section className=  {`feedback ${level ? `feedback--${level}` : ''}`}>{message}</section>
+    return <section className={`feedback ${level ? `feedback--${level}` : ''}`}>{message}</section>
 }
 
 
@@ -98,7 +98,7 @@ class App extends React.Component {
     }
 
     ClearLists = () => {
-        
+
         this.setState({ artistListVisible: false, albumListVisible: false, trackListVisible: false, trackVisible: false })
 
     }
@@ -130,7 +130,7 @@ class App extends React.Component {
 
     }
 
-   
+
 
     LoadAlbums = (id) => {
 
@@ -180,7 +180,7 @@ class App extends React.Component {
             logic.retrieveTrack(id, (error, Track) => {
                 if (error) console.error(error)
                 else {
-                    this.setState({ Track, trackVisible: true})
+                    this.setState({ Track, trackVisible: true })
                     console.log(this.state.Track)
 
                 }
@@ -196,7 +196,7 @@ class App extends React.Component {
 
     render() {
 
-        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList, TrackList, Track, artistListVisible, albumListVisible, trackListVisible, trackVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks, LoadTrack, goBackToAlbumList, goBackToArtistList,ClearLists } = this
+        const { state: { loginFeedback, registerFeedback, searchFeedback, loginVisible, registerVisible, searchPanelVisible, ArtistList, AlbumList, TrackList, Track, artistListVisible, albumListVisible, trackListVisible, trackVisible }, handleLogin, handleRegister, handleSearch, goToLogin, goToRegister, Logout, LoadAlbums, LoadTracks, LoadTrack, goBackToAlbumList, goBackToArtistList, ClearLists } = this
 
         return <main className='app'>
             <header className="header">
@@ -258,7 +258,7 @@ class LoginPanel extends React.Component {
 
         return <section className='login'>
             <h2>Login</h2>
-            <form className= 'login-form' onSubmit={handleFormSubmit}>
+            <form className='login-form' onSubmit={handleFormSubmit}>
                 <label>Email</label>
                 <input className='login-form__input' type="email" onChange={handleEmailInput} />
                 <label>Password</label>
@@ -374,28 +374,25 @@ class SearchPanel extends React.Component {
 
     render() {
 
-        const { handleQuery, handleFormSubmit, handleForButton,handleForButtonClear, props: { feedback } } = this
+        const { handleQuery, handleFormSubmit, handleForButton, handleForButtonClear, props: { feedback } } = this
 
         return <section className="search">
 
+            <button className='search__button-logout' onClick={handleForButton}>Logout</button>
+
+            <h2>Search an Artist</h2>
 
 
+            <form className='search-form' onSubmit={handleFormSubmit}>
+                <input className="search-form__input" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
+                <div className='search-form-buttons'>
+                    <button className='search-form-buttons__button'>Search</button>
+                    <button className='search-form-buttons__button' onClick={handleForButtonClear}>Clear Results</button>
 
-            <div>
-
-                <div>
-                    <button className='search__button-logout' onClick={handleForButton}>Logout</button>
-                    
                 </div>
-            </div>
-            <button className='search__button-clear' onClick={handleForButtonClear}>Clear Results</button>
 
-            <form onSubmit={handleFormSubmit}>
-                <input className="form-control" placeholder="Search an artist" type="text" name="query" onChange={handleQuery}></input>
-                <div>
-                    <button>Search</button>
-                </div>
             </form>
+
 
             {feedback && <Feedback message={feedback} level='warn' />}
 
@@ -527,12 +524,12 @@ class TrackListPanel extends React.Component {
 
 class TrackPanel extends React.Component {
 
-    
+
 
     render() {
         const { props: { track } } = this
         return <section className='playingTrack'>
-            
+
             <div>
 
                 <h4>{track.name}</h4>

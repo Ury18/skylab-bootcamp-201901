@@ -89,30 +89,42 @@ body {
 }
 
 .search {
+  margin-top: 10%;
   display: flex;
   flex-flow: column wrap;
-  position: relative;
-  margin-top: 10%;
-  width: 100%;
   align-items: center;
+  width: 100%;
+}
+.search__button-logout {
+  align-self: flex-end;
+  margin-right: 25%;
 }
 .search-form {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   margin-bottom: 2%;
-  width: 50%;
+  width: 100%;
   align-items: center;
+  justify-content: center;
 }
 .search-form__input {
-  margin-bottom: 5%;
+  margin-bottom: 1%;
   width: 50%;
 }
-.search-form__button {
+.search-form-buttons {
+  justify-self: center;
   align-self: center;
-  width: 10%;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  justify-content: center;
+  align-content: center;
 }
-.search__button {
-  width: 5.3%;
+.search-form-buttons__button {
+  margin: 2%;
+  width: 15%;
+  align-self: center;
+  justify-self: center;
 }
 
 .feedback {

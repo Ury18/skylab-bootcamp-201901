@@ -82,30 +82,39 @@ body
     &__login-button
         width: 5.3%
 
-
-.search 
+.search
+    margin-top: 10%
     display: flex
     flex-flow: column wrap
-    position: relative
-    margin-top: 10%
+    align-items: center
     width: 100%
-    align-items: center 
+    &__button-logout
+        align-self: flex-end
+        margin-right: 25%
     &-form
         display: flex
-        flex-flow: column wrap
+        flex-flow: column nowrap
         margin-bottom: 2%
-        width:50%
+        width:100%
         align-items: center 
-
+        justify-content: center
         &__input
-            margin-bottom: 5%
+            margin-bottom: 1%
             width: 50%
-        &__button
+        &-buttons
+            justify-self: center
             align-self: center
-            width: 10%    
-
-    &__button
-        width: 5.3%
+            display: flex
+            flex-flow: row nowrap
+            width: 100%
+            justify-content: center
+            align-content: center
+            &__button
+                margin: 2%
+                width: 15%
+                align-self: center
+                justify-self: center
+                
 
 
 .feedback 
