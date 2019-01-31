@@ -198,7 +198,7 @@ class App extends React.Component {
               <h1>Spotifury</h1>
           </header>
 
-
+{/* 
           {loginVisible && <LoginPanel onLogin={handleLogin} feedback={loginFeedback} goToRegister={goToRegister} />}
           {registerVisible && <RegisterPanel onRegister={handleRegister} feedback={registerFeedback} goToLogin={goToLogin} />}
           {searchPanelVisible && <SearchPanel onClear={ClearLists} onSearch={handleSearch} feedback={searchFeedback} goToLogout={Logout} />}
@@ -206,7 +206,7 @@ class App extends React.Component {
           {albumListVisible && <AlbumsPanel goToArtists={goBackToArtistList} albumList={AlbumList} onAlbumSelect={LoadTracks} />}
           {trackListVisible && <TrackListPanel goToAlbums={goBackToAlbumList} trackList={TrackList} onTrackSelect={LoadTrack} />}
           {trackVisible && <TrackPanel track={Track} />}
-
+ */}
 
 
 

@@ -1,5 +1,6 @@
 
-import users from './components/data'
+import users from '../data/'
+import spotifyApi from '../../vendor/spotify-api/1.0.0/spotify-api-1.0.0'
 
 
 const logic = {
@@ -82,7 +83,7 @@ const logic = {
 
         if (!query.trim().length) throw Error('query is empty')
 
-        if (typeof callback !== 'function') throw TypeErro(`${callback} is not a function`)
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.searchArtists(query, callback)
     },
@@ -93,7 +94,7 @@ const logic = {
 
         if (!artistId.trim().length) throw Error('artist is empty')
 
-        if (typeof callback !== 'function') throw TypeErro(`${callback} is not a function`)
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveAlbums(artistId, callback)
     },
@@ -105,7 +106,7 @@ const logic = {
 
         if (!albumId.trim().length) throw Error('album is empty')
 
-        if (typeof callback !== 'function') throw TypeErro(`${callback} is not a function`)
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveTracks(albumId, callback)
     },
@@ -115,7 +116,7 @@ const logic = {
 
         if (!trackId.trim().length) throw Error('track is empty')
 
-        if (typeof callback !== 'function') throw TypeErro(`${callback} is not a function`)
+        if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
         spotifyApi.retrieveTrack(trackId, callback)
     },
