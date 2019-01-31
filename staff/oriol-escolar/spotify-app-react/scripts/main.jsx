@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQAqVMrjOW7i8hoKR8CxMxg21uSQi6KtOBt_cLJpRnXs9KzdS58Ig4thEieIKI9CZBGWCQ4Zf3cohjj_zaB2l8f5f2kKXaylElrakMUqB2elpYuqda3SemtT3FdkRBGFZeFvuDyEZ3meLg'
+spotifyApi.token = 'BQDcUPhZyIK7sOMC9WSLb-WlAXvgt4od1XW24712oL6nIUyUKsxikP0qxCz4j0jr6poU5DUjTxmdT9cV_GSucWuz8326imFy19VxBM6jAkxhiGLQ0_JNhFX-RzHk3Izq58-zTm_S_3JULw'
 
 
 
@@ -506,13 +506,13 @@ class TrackListPanel extends React.Component {
 
 
         const { props: { trackList }, onTrackSelected, handleForButton } = this
-        return <section>
-            <button onClick={handleForButton}>Back</button>
-            <h3>Tracks</h3>
-            <div>
+        return <section className='tracklist'>
+            <button className='tracklist-button' onClick={handleForButton}>Back</button>
+            <h2 className='tracklist-title'>Tracks</h2>
+            <div className='tracklist-tracklist'>
                 {trackList.map(({ id, name }) => {
-                    return <div id-data={id} onClick={() => onTrackSelected(id)} >
-                        <h4>{name}</h4>
+                    return <div className='tracklist-tracklist-item' id-data={id} onClick={() => onTrackSelected(id)} >
+                        <h4 className='tracklist-tracklist-item__item' >{name}</h4>
                     </div>
                 })}
             </div>

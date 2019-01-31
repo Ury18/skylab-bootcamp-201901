@@ -216,6 +216,49 @@ body {
   width: 100%;
 }
 
+.tracklist {
+  margin: 0;
+  margin-top: 17%;
+  margin-bottom: 0%;
+  width: 100%;
+  align-self: center;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.tracklist-title {
+  margin-bottom: 3%;
+}
+.tracklist-button {
+  align-self: flex-end;
+  margin-right: 25%;
+  justify-self: flex-end;
+}
+.tracklist-tracklist {
+  width: 100%;
+}
+.tracklist-tracklist-item {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  box-shadow: 0px 0px 20px 0 black, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: solid 0.1rem green;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.tracklist-tracklist-item__item {
+  align-items: center;
+  justify-self: center;
+}
+
 .feedback {
   margin-top: 2%;
   border: 1px solid;
