@@ -1,4 +1,4 @@
-spotifyApi.token = 'BQDcUPhZyIK7sOMC9WSLb-WlAXvgt4od1XW24712oL6nIUyUKsxikP0qxCz4j0jr6poU5DUjTxmdT9cV_GSucWuz8326imFy19VxBM6jAkxhiGLQ0_JNhFX-RzHk3Izq58-zTm_S_3JULw'
+spotifyApi.token = 'BQDAKCLpT40gdOQxEVEfTma60NV-lp5RxbBYWs83Yu6XCgCa4dxf3xYgNQ-c-KXX9S80E9k8KF5mMe8EMQyNjiZmSvHteqhY9gIqd0P0WgwYgYh7QW5bpyXF8Yp62Vm_hW_BUuAMn4Hhkw'
 
 
 
