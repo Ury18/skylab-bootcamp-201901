@@ -1,0 +1,11 @@
+extends ../layout
+
+include ../feedback/index
+
+block content
+    section.home
+      p= `Welcome, ${name}!`
+      if feedback
+        +feedback(feedback, 'warn')
+      form(action='/logout', method='post')
+        button(type='submit') Logout
