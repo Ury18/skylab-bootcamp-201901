@@ -163,11 +163,11 @@ app.post('/searchArtist', formBodyParser, (req, res) => {
     req.session.artist = artist;
 
 
-    res.redirect(`/artist/${artist}`)
+    res.redirect(`/artists/${artist}`)
 
 })
 
-app.get('/artist/:artist', formBodyParser, (req, res) => {
+app.get('/artists/:artist', formBodyParser, (req, res) => {
 
 
     try {
@@ -187,6 +187,26 @@ app.get('/artist/:artist', formBodyParser, (req, res) => {
 
 })
 
+
+app.get('/albums/:artistId', formBodyParser, (req, res) => {
+
+
+    try {
+        const feedback = pullFeedback(req)
+        const logic = logicFactory.create(req)
+        const { params: { artistId } } = req
+        logic.retrieveAlbums(artistId)
+        .then(albums => res.render('home', { feedback, name: req.session.name, albums }))
+
+
+    } catch (error) {
+
+        console.log(error)
+    }
+
+
+
+})
 
 
 

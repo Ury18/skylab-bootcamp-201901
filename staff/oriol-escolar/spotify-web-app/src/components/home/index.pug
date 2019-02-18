@@ -3,6 +3,7 @@ extends ../layout
 include ../feedback/index
 include ../spotifySearch/index
 include ../artistsPanel/index
+include ../albumsList/index
 
 block content
     section.home
@@ -14,4 +15,6 @@ block content
       +spotifySearch
       if(artistList)
         +artistsPanel(artistList)
+      if(albums)
+        +albumsList(albums)
       
