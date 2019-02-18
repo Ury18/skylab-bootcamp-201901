@@ -1,0 +1,12 @@
+
+include ../feedback/index
+
+mixin spotifySearch()
+    section.search
+        h2.search__title Search an artist
+        form(class='register-form' method='POST', action='/searchArtist')
+            input(class='search-form__input' name='artist', type='text', placeholder='Search an artist', required='')
+            div.search-form-buttons
+                button(class='search-form__button' type='submit') Search
+        if feedback
+            +feedback(feedback, 'warn')

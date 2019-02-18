@@ -5,13 +5,11 @@ include ../feedback/index
 block content
     section.login
       h2 Login
-      form(method='POST', action='/login')
-        input(name='email', type='email', placeholder='email', required='')
-        input(name='password', type='password', placeholder='password', required='')
-        button(type='submit') Login
+      form(class = 'login' method='POST', action='/login')
+        input(class = 'login-form' name='email', type='email', placeholder='email', required='')
+        input(class='login-form__input' name='password', type='password', placeholder='password', required='')
+        button(class='login-form__button' type='submit') Login
       if feedback
         +feedback(feedback, 'error')
-      | Go 
-      a(href='/') Home
-      |  or 
+      
       a(href='/register') Register

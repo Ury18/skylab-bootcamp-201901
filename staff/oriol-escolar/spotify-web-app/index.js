@@ -37,18 +37,23 @@ function pullFeedback(req) {
 function renderPage(content) {
     return `<html>
 <head>
-    <title>HELLO WORLD!</title>
+    <title>Spotifury!</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body class="main">
-    <h1>HELLO WORLD! 🤡</h1>
+main class='app'>
+<header class="header">
+    <h1>Spotifury</h1>
+</header>
     ${content}
 </body>
 </html>`
 }
 
 app.get('/', (req, res) => {
-    res.render('landing')
+    const feedback = pullFeedback(req)
+
+    res.render('login', { feedback })
 })
 
 app.get('/register', (req, res) => {
@@ -127,7 +132,10 @@ app.get('/home', (req, res) => {
 
         if (logic.isUserLoggedIn)
             logic.retrieveUser()
-                .then(user => res.render('home',{feedback,name : user.name}).render('spotifySearch'))
+                .then(user => {
+                    req.session.name = user.name
+                    return res.render('home', { feedback, name: user.name })
+                })
                 .catch(({ message }) => {
                     req.session.feedback = message
 
@@ -149,10 +157,35 @@ app.post('/logout', (req, res) => {
     res.redirect('/')
 })
 
+app.post('/searchArtist', formBodyParser, (req, res) => {
+    const { body: { artist } } = req
+
+    req.session.artist = artist;
+
+
+    res.redirect(`/artist/${artist}`)
+
+})
+
+app.get('/artist/:artist', formBodyParser, (req, res) => {
+
+
+    try {
+        const feedback = pullFeedback(req)
+        const logic = logicFactory.create(req)
+        const { params: { artist } } = req
+        logic.searchArtists(artist)
+        .then(artistList => res.render('home', { feedback, name: req.session.name, artistList }))
+
+
+    } catch (error) {
+
+        console.log(error)
+    }
 
 
 
-
+})
 
 
 

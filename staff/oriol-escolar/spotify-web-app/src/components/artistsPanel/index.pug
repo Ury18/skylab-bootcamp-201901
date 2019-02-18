@@ -1,0 +1,9 @@
+
+mixin artistsPanel(artistList)
+    section(class='artists')
+      h2(class='artists__title') Artists
+      div(class='artists-items')
+        each artist in artistList
+            a(class='artists-items-item', href = `/artist/${artist.id}`)
+              img(class='artists-items-item__image',src=` ${artist.images[0] ? artist.images[0].url : 'https://images-na.ssl-images-amazon.com/images/I/51rttY7a%2B9L.png'}`)
+              h4(class='artists-items-item__name')= artist.name

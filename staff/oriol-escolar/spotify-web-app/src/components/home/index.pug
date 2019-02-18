@@ -1,6 +1,8 @@
 extends ../layout
 
 include ../feedback/index
+include ../spotifySearch/index
+include ../artistsPanel/index
 
 block content
     section.home
@@ -9,3 +11,7 @@ block content
         +feedback(feedback, 'warn')
       form(action='/logout', method='post')
         button(type='submit') Logout
+      +spotifySearch
+      if(artistList)
+        +artistsPanel(artistList)
+      
