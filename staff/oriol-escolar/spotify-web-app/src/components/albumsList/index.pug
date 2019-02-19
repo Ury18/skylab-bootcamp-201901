@@ -4,6 +4,6 @@ mixin albumsList(albums)
       h2(class='albums__title') Albums
       div(class='albums-items')
         each album in albums
-            a(class='albums-items-item', href = `/tracks/${album.id}`)
+            a(class='albums-items-item', href = `/trackList/${album.id}`)
               img(class='albums-items-item__image',src=` ${album.images[0] ? album.images[0].url : 'https://images-na.ssl-images-amazon.com/images/I/51rttY7a%2B9L.png'}`)
               h4(class='albums-items-item__name')= album.name

@@ -6,7 +6,9 @@ block content
     section.login
       h2 Login
       form(class = 'login' method='POST', action='/login')
+        p Email
         input(class = 'login-form' name='email', type='email', placeholder='email', required='')
+        p Password
         input(class='login-form__input' name='password', type='password', placeholder='password', required='')
         button(class='login-form__button' type='submit') Login
       if feedback

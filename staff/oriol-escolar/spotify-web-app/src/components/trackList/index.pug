@@ -1,0 +1,8 @@
+mixin trackList(trackList)
+    section(class='artists')
+      h2(class='artists__title') Track List
+      div(class='artists-items')
+        each track in trackList
+            a(class='artists-items-item', href = `/trackList/${track.id}`)
+              h4(class='artists-items-item__name')= track.name
+              audio(controls src=`${track.preview_url}`)

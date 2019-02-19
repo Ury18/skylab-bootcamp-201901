@@ -208,6 +208,26 @@ app.get('/albums/:artistId', formBodyParser, (req, res) => {
 
 })
 
+app.get('/trackList/:albumId', formBodyParser, (req, res) => {
+
+
+    try {
+        const feedback = pullFeedback(req)
+        const logic = logicFactory.create(req)
+        const { params: { albumId } } = req
+        logic.retrieveTracks(albumId)
+        .then(trackList => res.render('home', { feedback, name: req.session.name, trackList }))
+
+
+    } catch (error) {
+
+        console.log(error)
+    }
+
+
+
+})
+
 
 
 

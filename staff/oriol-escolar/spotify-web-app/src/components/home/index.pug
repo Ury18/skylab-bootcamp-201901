@@ -4,6 +4,7 @@ include ../feedback/index
 include ../spotifySearch/index
 include ../artistsPanel/index
 include ../albumsList/index
+include ../trackList/index
 
 block content
     section.home
@@ -17,4 +18,6 @@ block content
         +artistsPanel(artistList)
       if(albums)
         +albumsList(albums)
+      if(trackList)
+        +trackList(trackList)
       

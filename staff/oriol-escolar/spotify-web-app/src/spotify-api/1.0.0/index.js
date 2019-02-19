@@ -6,7 +6,7 @@
  * @version 2.1.0
  */
 module.exports = {
-    token: 'BQB_eYtYqu4UytQpsVkZJIORkP-zkkf0ZzzQyvS4CLBXty5_n8tVVEKpxyB16zWtb-NXzNJZ2NBy-jgfIfix-hKJkLoKqeBvnv6okX3D21rJ-2iV3JLLfeCU6GhP6mYqzJQqfcZaO_B9ew',
+    token:'BQD6r4TigMEogOValadL4EUQJeezLQbkfSawdZgnllRfFqo6OlzGMXfqx5yYVZV_Cv_cVzCxA_QjdxGKwOdzS0bA5DNU8rHce_u3x-uXohdDCmNxwGd0pascaJbjfktH7gWSq4rsF_HTWg',
     url: 'https://api.spotify.com/v1',
 
     /**

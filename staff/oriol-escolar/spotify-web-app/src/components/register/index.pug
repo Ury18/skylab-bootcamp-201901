@@ -6,10 +6,15 @@ block content
     section.register
       h2 Register
       form(class='register-form' method='POST', action='/register')
+        p Name
         input(class='register-form__input' name='name', type='text', placeholder='name', required='')
+        p Surname
         input(class='register-form__input' name='surname', type='text', placeholder='surname', required='')
+        p Email
         input(class='register-form__input' name='email', type='email', placeholder='email', required='')
+        p Password
         input(class='register-form__input' name='password', type='password', placeholder='password', required='')
+        p Password Confirmation
         input(class='register-form__input' name='passwordConfirm', type='password', placeholder='confirm password', required='')
         button(class='register-form__button' type='submit') Register
       if feedback
