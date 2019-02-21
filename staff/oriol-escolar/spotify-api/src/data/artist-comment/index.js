@@ -1,118 +1,110 @@
 const uuid = require('uuid/v4')
-const fs = require('fs')
+const fsp = require('fs').promises // WARN need node v10+
 const path = require('path')
-const file = path.join(__dirname, 'artist-comments.json')
-
 
 const artistComment = {
+    file: 'artist-comments.json',
+
+    __load__(file) {
+        return fsp.readFile(file)
+            .then(content => JSON.parse(content))
+    },
+
+    __save__(file, comments) {
+        return fsp.writeFile(file, JSON.stringify(comments, null, 4))
+    },
+
     add(comment) {
-        comment.id = uuid()
-        return new Promise((resolve, reject) =>
+        // TODO validate comment (should all field values and types)
 
-            fs.readFile(file, 'utf8', ((err, data) => {
-                if (err) reject(err)
-                data = JSON.parse(data)
-                data.push(comment)
-                dataJS = JSON.stringify(data)
-                fs.writeFile(file, dataJS, err => {
-                    if (err) reject(err)
-                    resolve(true)
-                })
+        const file = path.join(__dirname, this.file)
 
-            }))
+        return this.__load__(file)
+            .then(comments => {
+                comment.id = uuid()
 
-        )
-    },
+                comments.push(comment)
 
-    retrieve(id) { //Param: Comment.id, returns the comment object
-        return new Promise((resolve, reject) =>
-
-            fs.readFile(file, 'utf8', ((err, data) => {
-
-                if (err) reject(err)
-                data = JSON.parse(data)
-                data = data.filter(comment => comment.id === id)
-                if (data[0]) resolve(data[0])
-                else resolve(undefined)
+                return this.__save__(file, comments)
             })
-
-
-            ))
     },
 
-    update(newComment) { //Overrides a comment
-        return new Promise((resolve, reject) =>
+    retrieve(id) {
+        // TODO validate id
 
+        const file = path.join(__dirname, this.file)
 
-            fs.readFile(file, 'utf8', ((err, data) => {
-                if (err) reject(err)
-                else {
-                    data = JSON.parse(data)
-                    objectToReplace = data.findIndex(comment => comment.id === newComment.id)
-                    data.splice(objectToReplace, 1, newComment)
-                    dataJSON = JSON.stringify(data)
-                    fs.writeFile(file, dataJSON, err => {
-                        if (err) reject(err)
-                        resolve(true)
-                    })
-                }
-            }))
+        return this.__load__(file)
+            .then(comments => {
+                const comment = comments.find(comment => comment.id === id)
 
+                if (typeof comment === 'undefined') return null
 
-        )
+                comment.date = new Date(comment.date)
 
+                return comment
+            })
     },
 
-    delete(id) { //Deletes a comment, param comment.id
+    update(comment) {
+        // TODO validate comment (should all field values and types)
+        
+        const file = path.join(__dirname, this.file)
 
-        return new Promise((resolve, reject) =>
+        return this.__load__(file)
+            .then(comments => {
+                const index = comments.findIndex(_comment => _comment.id === comment.id)
 
-            fs.readFile(file, 'utf8', ((err, data) => {
+                if (index < 0) throw Error(`comment with id ${comment.id} not found`)
 
-                if (err) reject(err)
-                data = JSON.parse(data)
-                let index = data.findIndex(comment => comment.id === id)
-                console.log('INDEX:' + index)
-                data.splice(index, 1)
-                let dataJSON = JSON.stringify(data)
-                fs.writeFile(file, dataJSON, err => {
-                    if (err) reject(err)
-                    resolve(true)
-                })
+                comments[index] = comment
 
-            }))
-
-        )
-
-
+                return this.__save__(file, comments)
+            })
     },
 
-    find(props) {
-        return new Promise((resolve, reject) =>
+    remove(id) {
+        // TODO validate id
 
-            fs.readFile(file, 'utf8', ((err, data) => {
+        const file = path.join(__dirname, this.file)
 
-                if (err) reject(err)
-                data = JSON.parse(data)
-                data = data.filter(comment => {
+        return this.__load__(file)
+            .then(comments => {
+                const index = comments.findIndex(comment => comment.id === id)
 
-                    for (const key in props) {
-                        
-                        if (comment[key] !== props[key]) return false
+                if (index < 0) throw Error(`comment with id ${id} not found`)
 
-                    }
+                comments.splice(index, 1)
+
+                return this.__save__(file, comments)
+            })
+    },
+
+    removeAll() {
+        const file = path.join(__dirname, this.file)
+        
+        return this.__save__(file, [])
+    },
+
+    find(criteria) {
+        // TODO validate criteria
+
+        const file = path.join(__dirname, this.file)
+
+        return this.__load__(file)
+            .then(comments => {
+                const filtered = comments.filter(comment => {
+                    for (const key in criteria)
+                        if (comment[key] !== criteria[key]) return false
+
                     return true
                 })
-                debugger
-                if (data) resolve(data)
-                else resolve(undefined)
+
+                filtered.forEach(comment => comment.date = new Date(comment.date))
+
+                return filtered
             })
-
-
-            ))
-
-
     }
 }
 
-module.exports = artistComment;
+module.exports = artistComment
