@@ -56,14 +56,12 @@ describe('user', () => {
 
         it('should succeed on correct data', () =>
             users.authenticate(_user.email,_user.password)
-                .then(({ name, surname, email, password , _id}) => {
+                .then(({ id,token}) => {
                     
-                    expect(_id.toString()).to.exist
-                    expect(_id.toString()).to.be.a('string')
-                    expect(name).to.equal(_user.name)
-                    expect(surname).to.equal(_user.surname)
-                    expect(email).to.equal(_user.email)
-                    expect(password).to.equal(_user.password)
+                    expect(id).to.exist
+                    expect(id).to.be.a('string')
+                    expect(token).to.exist
+                    expect(token).to.be.a('string')
                 })
                 
         )

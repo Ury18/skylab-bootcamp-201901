@@ -59,15 +59,8 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
-
-        // return userApi.authenticate(email, password)
-        // TODO redo authenticate here, using users driver to find user by email, verify password, generate token using jsonwebtoken
-        // return users.findByEmail(email)
-            // .then(user => {
-            //  if (!user) throw Error(`user with email ${email} not found`)
-            //  if (user.password !== password) throw Error('wrong credentials')
-            //  create token... etc, etc, etc...
-            // })
+        return users.authenticate(email,password)
+       
     },
 
     retrieveUser(userId, token) {

@@ -16,7 +16,7 @@ const { env: { DB_URL, SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = SPOTIFY_API_TOKEN
 
-false && describe('logic', () => {
+describe('logic', () => {
     let client
 
     before(() =>
@@ -186,22 +186,36 @@ false && describe('logic', () => {
     })
 
     describe('authenticate user', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
+        const _user = {
+            name: 'Tachi',
+            surname: 'Melodin',
+            email: 'tachito',
+            password: 'meguhtalagasssolina'
+        }
 
         beforeEach(() =>
-            // logic.registerUser(name, surname, email, password, passwordConfirm) // FATAL each test should test ONE unit
-            userApi.register(name, surname, email, password)
+            users.add(_user)
         )
 
         it('should succeed on correct credentials', () =>
-            logic.authenticateUser(email, password)
-                .then(({ id, token }) => {
-                    expect(id).toBeDefined()
-                    expect(token).toBeDefined()
-                })
+            // logic.authenticateUser(email, password)
+            //     .then(({ id, token }) => {
+            //         expect(id).toBeDefined()
+            //         expect(token).toBeDefined()
+            //     })
+
+            logic.authenticateUser(_user.email,_user.password)
+            
+            .then(({id,token}) => {
+                
+                expect(id).toBeDefined()
+                expect(typeof id === 'string').toBeTruthy()
+                expect(token).toBeDefined()
+                expect(typeof token === 'string').toBeTruthy()
+
+            })
+
+
         )
     })
 
