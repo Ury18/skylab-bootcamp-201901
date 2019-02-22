@@ -4,6 +4,10 @@ const spotifyApi = require('../spotify-api')
 const userApi = require('../user-api')
 const users = require('../data/users')
 const artistComments = require('../data/artist-comments')
+const jwt= require('jsonwebtoken')
+const ObjectId = require('mongodb').ObjectID
+const bcrypt = require('bcrypt')
+
 
 /**
  * Abstraction of business logic.
@@ -40,9 +44,7 @@ const logic = {
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
-
-        // return userApi.register(name, surname, email, password)
-        return users.add({ name, surname, email, password })
+        return bcrypt.hash(password, 10 ).then(hash => users.add({ name, surname, email, password: hash })         );
     },
 
     /**
@@ -59,20 +61,40 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
 
         if (!password.trim().length) throw Error('password cannot be empty')
-        return users.authenticate(email,password)
+        return users.findByEmail(email)
+        .then(user => {
+            if (!user) throw Error(`user with email ${email} not found`)
+            if (user.password !== password) throw Error('wrong credentials')
+            let id = user.id
+            let token = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                data: {id}
+            }, 'mysecretkey');
+            
+            return {
+                id,
+                token
+            }
+        })
        
     },
 
     retrieveUser(userId, token) {
-        return userApi.retrieve(userId, token)
-            .then(({ id, name, surname, username: email, favoriteArtists = [], favoriteAlbums = [], favoriteTracks = [] }) => ({
+
+        return users.findById(ObjectId(userId))
+            .then(user =>{
+                if (!user) throw Error(`user with id ${userId} not found`)
+                let decodedId = jwt.verify(token,'mysecretkey')
+                if (decodedId.data.id !== userId) throw Error('wrong credentials')
+
+                return user
+            })
+            .then(({ id, name, surname, email,password}) => ({
                 id,
                 name,
                 surname,
                 email,
-                favoriteArtists,
-                favoriteAlbums,
-                favoriteTracks
+                password
             }))
     },
 

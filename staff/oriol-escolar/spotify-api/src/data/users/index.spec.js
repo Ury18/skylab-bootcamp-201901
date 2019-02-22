@@ -45,7 +45,7 @@ describe('user', () => {
                 })
         )
     })
-    describe('authenticate', () => {
+    describe('find user by email', () => {
         const _user = {
             name: 'Tachi',
             surname: 'Melodin',
@@ -55,18 +55,44 @@ describe('user', () => {
         beforeEach(()=> users.collection.insertOne(_user))
 
         it('should succeed on correct data', () =>
-            users.authenticate(_user.email,_user.password)
-                .then(({ id,token}) => {
+            users.findByEmail(_user.email)
+                .then(({ name,surname,email,password,id,_id}) => {
                     
                     expect(id).to.exist
                     expect(id).to.be.a('string')
-                    expect(token).to.exist
-                    expect(token).to.be.a('string')
+                    expect(_id).to.be.a('undefined')
+                    expect(name).to.equal(_user.name)
+                    expect(surname).to.equal(_user.surname)
+                    expect(email).to.equal(_user.email)
+                    expect(password).to.equal(_user.password)
                 })
                 
         )
     })
 
+    describe('retrieve user', () => {
+        const _user = {
+            name: 'Tachi',
+            surname: 'Melodin',
+            email: 'tachito',
+            password: 'meguhtalagasssolina'
+        }
+        beforeEach(()=> 
+        users.collection.insertOne(_user)
+        
+        
+        )
+
+        it('should succeed on correct data', () =>
+            users.findByEmail(_user.email)
+                .then(({ id}) => {
+                    
+                    expect(id).to.exist
+                    expect(id).to.be.a('string')
+                })
+                
+        )
+    })
     after(() =>
         users.collection.deleteMany()
             .then(() => client.close())
