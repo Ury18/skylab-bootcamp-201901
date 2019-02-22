@@ -30,11 +30,14 @@ const user = {
         })
     },
 
-    retrieve(){
-        
+   update(){
+    return this.collection.findOneAndUpdate(data)
+   },
+
+   delete(){
 
 
-    }
+   }
 
 }
 

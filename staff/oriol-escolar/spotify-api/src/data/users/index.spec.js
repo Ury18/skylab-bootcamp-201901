@@ -70,25 +70,36 @@ describe('user', () => {
         )
     })
 
-    describe('retrieve user', () => {
+    describe('find user by id', () => {
         const _user = {
             name: 'Tachi',
             surname: 'Melodin',
             email: 'tachito',
             password: 'meguhtalagasssolina'
         }
+        let _id 
+
         beforeEach(()=> 
         users.collection.insertOne(_user)
+        
+        .then((id) => {
+            return users.findByEmail(_user.email).then(({ id }) => {
+                _id = id
+            })
+        })
         
         
         )
 
         it('should succeed on correct data', () =>
-            users.findByEmail(_user.email)
-                .then(({ id}) => {
+            users.findById(ObjectId(_id))
+                .then((user) => {
                     
-                    expect(id).to.exist
-                    expect(id).to.be.a('string')
+                    expect(user.name).to.equal(_user.name)
+                    expect(user.id).to.equal(_id)
+                    expect(user.surname).to.equal(_user.surname)
+                    expect(user.email).to.equal(_user.email)
+                    expect(user.password).to.equal(_user.password)
                 })
                 
         )
@@ -97,4 +108,5 @@ describe('user', () => {
         users.collection.deleteMany()
             .then(() => client.close())
     )
+    
 })

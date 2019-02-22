@@ -244,7 +244,7 @@ describe('logic', () => {
                     expect(user.id).toBe(_id)
                     expect(user.surname).toBe(_user.surname)
                     expect(user.email).toBe(_user.email)
-                    expect(user.email).toBe(_user.email)
+                    expect(user.password).toBe(_user.password)
                 })
         )
     })
