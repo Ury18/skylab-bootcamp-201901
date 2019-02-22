@@ -30,8 +30,8 @@ const user = {
         })
     },
 
-   update(){
-    return this.collection.findOneAndUpdate(data)
+   update(userInfo,data){
+    return this.collection.findOneAndUpdate(userInfo,{$set:data})
    },
 
    delete(){
