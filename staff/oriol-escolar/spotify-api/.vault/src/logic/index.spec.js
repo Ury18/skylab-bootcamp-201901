@@ -1,40 +1,17 @@
-'use strict'
-
 require('dotenv').config()
-
 require('isomorphic-fetch')
 
-const { MongoClient } = require('mongodb')
 const expect = require('expect')
-const userApi = require('../user-api')
-const spotifyApi = require('../spotify-api')
-const artistComments = require('../data/artist-comments')
-const logic = require('.')
-const users = require('../data/users')
 
-const { env: { DB_URL, SPOTIFY_API_TOKEN } } = process
+const spotifyApi = require('../spotify-api')
+
+const logic = require('.')
+
+const { env: { SPOTIFY_API_TOKEN } } = process
 
 spotifyApi.token = SPOTIFY_API_TOKEN
 
 false && describe('logic', () => {
-    let client
-
-    before(() =>
-        MongoClient.connect(DB_URL, { useNewUrlParser: true })
-            .then(_client => {
-                client = _client
-
-                users.collection = client.db().collection('users')
-            })
-    )
-
-    beforeEach(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-        ])
-    )
-
     describe('register user', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
@@ -190,10 +167,10 @@ false && describe('logic', () => {
         const surname = 'Barzi'
         const email = `manuelbarzi@mail.com-${Math.random()}`
         const password = '123'
+        const passwordConfirm = password
 
         beforeEach(() =>
-            // logic.registerUser(name, surname, email, password, passwordConfirm) // FATAL each test should test ONE unit
-            userApi.register(name, surname, email, password)
+            logic.registerUser(name, surname, email, password, passwordConfirm)
         )
 
         it('should succeed on correct credentials', () =>
@@ -214,10 +191,10 @@ false && describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
+                .then(({id, token}) => {
+                    _id = id,
                     _token = token
                 })
         )
@@ -284,10 +261,10 @@ false && describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
+                .then(({id, token}) => {
+                    _id = id,
                     _token = token
                 })
         )
@@ -316,93 +293,6 @@ false && describe('logic', () => {
 
                     expect(user.favoriteArtists).toBeDefined()
                     expect(user.favoriteArtists.length).toBe(0)
-                })
-        )
-    })
-
-    describe('add comment to artist', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const text = `comment ${Math.random()}`
-        let _id, _token
-
-        beforeEach(() =>
-            // FATAL each test should test ONE unit
-            // logic.registerUser(name, surname, email, password, passwordConfirm)
-            //     .then(() => logic.authenticateUser(email, password))
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
-                    _token = token
-                })
-        )
-
-        it('should succeed on correct data', () =>
-            logic.addCommentToArtist(_id, _token, artistId, text)
-                .then(id => {
-                    expect(id).toBeDefined()
-
-                    return artistComments.retrieve(id)
-                        .then(_comment => {
-                            expect(_comment.id).toBe(id)
-                            expect(_comment.userId).toBe(_id)
-                            expect(_comment.artistId).toBe(artistId)
-                            expect(_comment.text).toBe(text)
-                            expect(_comment.date).toBeDefined()
-                            expect(_comment.date instanceof Date).toBeTruthy()
-                        })
-                })
-        )
-    })
-
-    describe('list comments from artist', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        const email = `manuelbarzi@mail.com-${Math.random()}`
-        const password = '123'
-        const artistId = '6tbjWDEIzxoDsBA1FuhfPW' // madonna
-        const text = `comment ${Math.random()}`
-        const text2 = `comment ${Math.random()}`
-        const text3 = `comment ${Math.random()}`
-        let comment, comment2, comment3
-        let _id, _token
-
-        beforeEach(() =>
-            // FATAL each test should test ONE unit
-            // logic.registerUser(name, surname, email, password, passwordConfirm)
-            //     .then(() => logic.authenticateUser(email, password))
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
-                    _token = token
-                })
-                .then(() => artistComments.add(comment = { userId: _id, artistId, text }))
-                .then(() => artistComments.add(comment2 = { userId: _id, artistId, text: text2 }))
-                .then(() => artistComments.add(comment3 = { userId: _id, artistId, text: text3 }))
-        )
-
-        it('should succeed on correct data', () =>
-            logic.listCommentsFromArtist(artistId)
-                .then(comments => {
-                    expect(comments).toBeDefined()
-                    expect(comments.length).toBe(3)
-
-                    comments.forEach(({ id, userId, artistId: _artistId, date }) => {
-                        expect(id).toBeDefined()
-                        expect(userId).toEqual(_id)
-                        expect(_artistId).toEqual(artistId)
-                        expect(date).toBeDefined()
-                        expect(date instanceof Date).toBeTruthy()
-                    })
-
-                    expect(comments[0].text).toEqual(text)
-                    expect(comments[1].text).toEqual(text2)
-                    expect(comments[2].text).toEqual(text3)
                 })
         )
     })
@@ -454,17 +344,17 @@ false && describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
+                .then(({id, token}) => {
+                    _id = id,
                     _token = token
                 })
         )
 
         it('should succeed on correct data', () =>
             logic.toggleFavoriteAlbum(_id, _token, albumId)
-                .then(() => logic.retrieveUser(_id, _token))
+                .then(() => logic.retrieveUser(_id, _token, ))
                 .then(user => {
                     expect(user.id).toBe(_id)
                     expect(user.name).toBe(name)
@@ -542,10 +432,10 @@ false && describe('logic', () => {
         let _id, _token
 
         beforeEach(() =>
-            userApi.register(name, surname, email, password)
-                .then(() => userApi.authenticate(email, password))
-                .then(({ id, token }) => {
-                    _id = id
+            logic.registerUser(name, surname, email, password, passwordConfirm)
+                .then(() => logic.authenticateUser(email, password))
+                .then(({id, token}) => {
+                    _id = id,
                     _token = token
                 })
         )
@@ -577,12 +467,4 @@ false && describe('logic', () => {
                 })
         )
     })
-
-    after(() =>
-        Promise.all([
-            artistComments.removeAll(),
-            users.collection.deleteMany()
-                .then(() => client.close())
-        ])
-    )
 })

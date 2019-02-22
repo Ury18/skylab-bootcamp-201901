@@ -5,8 +5,13 @@
  * 
  * @version 2.1.0
  */
+
+const { env: { SPOTIFY_API_TOKEN } } = process
+
+
+
 const spotifyApi = {
-    token: 'NO-TOKEN',
+    token: SPOTIFY_API_TOKEN,
     url: 'https://api.spotify.com/v1',
 
     /**

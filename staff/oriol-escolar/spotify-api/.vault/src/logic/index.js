@@ -2,8 +2,6 @@
 
 const spotifyApi = require('../spotify-api')
 const userApi = require('../user-api')
-const users = require('../data/users')
-const artistComments = require('../data/artist-comments')
 
 /**
  * Abstraction of business logic.
@@ -41,8 +39,8 @@ const logic = {
 
         if (password !== passwordConfirmation) throw Error('passwords do not match')
 
-        // return userApi.register(name, surname, email, password)
-        return users.add({ name, surname, email, password })
+        return userApi.register(name, surname, email, password)
+            .then(() => { })
     },
 
     /**
@@ -52,6 +50,7 @@ const logic = {
      * @param {string} password 
      */
     authenticateUser(email, password) {
+        debugger
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
 
         if (!email.trim().length) throw Error('email cannot be empty')
@@ -60,14 +59,7 @@ const logic = {
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        // return userApi.authenticate(email, password)
-        // TODO redo authenticate here, using users driver to find user by email, verify password, generate token using jsonwebtoken
-        // return users.findByEmail(email)
-            // .then(user => {
-            //  if (!user) throw Error(`user with email ${email} not found`)
-            //  if (user.password !== password) throw Error('wrong credentials')
-            //  create token... etc, etc, etc...
-            // })
+        return userApi.authenticate(email, password)
     },
 
     retrieveUser(userId, token) {
@@ -110,12 +102,6 @@ const logic = {
         if (!artistId.trim().length) throw Error('artistId is empty')
 
         return spotifyApi.retrieveArtist(artistId)
-        // TODO once artistComment is already implemented
-        // .then(artist =>
-        //     artistComment.find({ artistId: artist.id })
-        //         .then(comments => artist.comments = comments)
-        //         .then(() => artist)
-        // )
     },
 
     /**
@@ -135,31 +121,6 @@ const logic = {
 
                 return userApi.update(userId, token, { favoriteArtists })
             })
-    },
-
-    addCommentToArtist(userId, token, artistId, text) {
-        // TODO validate userId, token, artistId and text
-
-        const comment = {
-            userId,
-            artistId,
-            text,
-            date: new Date
-        }
-
-        return userApi.retrieve(userId, token)
-            .then(() => spotifyApi.retrieveArtist(artistId))
-            .then(({ error }) => {
-                if (error) throw Error(error.message)
-            })
-            .then(() => artistComments.add(comment))
-            .then(() => comment.id)
-    },
-
-    listCommentsFromArtist(artistId) {
-        // TODO validate artistId
-
-        return artistComments.find({ artistId })
     },
 
     /**

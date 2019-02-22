@@ -66,7 +66,7 @@ const userApi = {
 
         return fetch(`${this.url}/user/${id}`, {
             headers: {
-                authorization: `Bearer ${token}`
+                authorization: `${token}`
             }
         })
             .then(response => response.json())
@@ -91,7 +91,7 @@ const userApi = {
         return fetch(`${this.url}/user/${id}`, {
             method: 'PUT',
             headers: {
-                authorization: `Bearer ${token}`,
+                authorization: `${token}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -122,7 +122,7 @@ const userApi = {
         return fetch(`${this.url}/user/${id}`, {
             method: 'DELETE',
             headers: {
-                authorization: `Bearer ${token}`,
+                authorization: `${token}`,
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ username, password })

@@ -2,23 +2,47 @@ require('dotenv').config()
 
 require('isomorphic-fetch')
 
+const { MongoClient } = require('mongodb')
 const express = require('express')
 const bodyParser = require('body-parser')
+const spotifyApi = require('./spotify-api')
 
-const { register, authenticate, retrieve, notFound } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, searchArtists, addCommentToArtist, listCommentsFromArtist, notFound } = require('./routes')
 
-const { env: { PORT }, argv: [, , port = PORT || 8080] } = process
+const { env: { DB_URL, PORT, SPOTIFY_API_TOKEN }, argv: [, , port = PORT || 8080] } = process
 
-const app = express()
+MongoClient.connect(DB_URL, { useNewUrlParser: true })
+    .then(client => {
+        spotifyApi.token = SPOTIFY_API_TOKEN
 
-const jsonBodyParser = bodyParser.json()
+        const app = express()
 
-app.post('/register', jsonBodyParser, register.post)
+        const jsonBodyParser = bodyParser.json()
 
-app.post('/authenticate', jsonBodyParser, authenticate.post)
+        const router = express.Router()
 
-app.get('/retrieve/:id', retrieve.get)
+        router.post('/user', jsonBodyParser, registerUser)
 
-// app.get('*', notFound.get)
+        router.post('/user/auth', jsonBodyParser, authenticateUser)
 
-app.listen(port, () => console.log(`server running on port ${port}`))
+        router.get('/user/:id', retrieveUser)
+
+        router.get('/artists', searchArtists)
+
+        router.post('/artist/:artistId/comment', jsonBodyParser, addCommentToArtist)
+
+        router.get('/artist/:artistId/comment', listCommentsFromArtist)
+
+        // router.get('/artist/:id', retrieveArtist)
+
+        // router.get('/album/:id', retrieveAlbum)
+
+        // router.get('/track/:id', retrieveTrack)
+
+        // app.get('*', notFound)
+
+        app.use('/api', router)
+
+        app.listen(port, () => console.log(`server running on port ${port}`))
+    })
+    .catch(console.error)
