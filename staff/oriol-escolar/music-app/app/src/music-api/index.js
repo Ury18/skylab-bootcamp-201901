@@ -88,13 +88,7 @@ const musicApi = {
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .then(response => {
-                const { status } = response
-
-                if (status === 'OK') return
-
-                throw Error(response.error)
-            })
+            .then(response => response)
     },
 
     remove(id, token, email, password) {
@@ -119,13 +113,7 @@ const musicApi = {
             body: JSON.stringify({ email, password })
         })
             .then(response => response.json())
-            .then(response => {
-                const { status } = response
-
-                if (status === 'OK') return
-
-                throw Error(response.error)
-            })
+            .then(response => response)
     }
 }
 
